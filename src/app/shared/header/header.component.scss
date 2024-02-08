@@ -1,0 +1,34 @@
+@import "../../../assets/common/theme.scss";
+
+.header-container {
+
+    .links-container {
+        a {
+            text-decoration: none;
+            color: black;
+
+            &:hover {
+                text-decoration: underline;
+                color: $raw-umber;
+            }
+
+            &:visited {
+                text-decoration: none;
+                color: black;
+            }
+        }
+    }
+
+    .login-btn {
+        width: 100px;
+
+        &:hover {
+            background-color: $raw-umber;
+            color: white;
+        }
+    }
+}
+
+.menu-container {
+    width: 300px;
+}
