@@ -4,9 +4,22 @@
     <app-header></app-header>
   </header>
   <main>
-    <div class="headless-container">
-      <router-outlet></router-outlet>
+    <div style="height: 100%;" *ngIf="isAuthenticated else noSideBar">
+      <!-- <app-header></app-header> -->
+      <app-sidenav>
+        <router-outlet></router-outlet>
+      </app-sidenav>
+      <!-- <ng-container *ngIf="isUpdating$ | async as isLoading">
+        <div class="dark-overlay" *ngIf="isLoading.loading">
+          <mat-spinner></mat-spinner>
+        </div>
+      </ng-container> -->
     </div>
+    <ng-template #noSideBar>
+      <div class="headless-container">
+        <router-outlet></router-outlet>
+      </div>
+    </ng-template>
   </main>
   <footer>
     <app-footer id="footer"></app-footer>

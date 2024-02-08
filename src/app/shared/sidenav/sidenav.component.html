@@ -1,0 +1,43 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport fixedTopGap="52" [mode]="'side'" [opened]="true">
+        <div class="sidenav-list">
+            <mat-toolbar>
+                <a href="/" class="text-decoration-none">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-solid fa-chart-line color-raw-umber me-2"></i>
+                        <div class="color-black">
+                            DASHBOARD
+                        </div>
+                    </div>
+                </a>
+            </mat-toolbar>
+            <mat-nav-list>
+                <mat-accordion [multi]="true">
+                    <mat-expansion-panel [expanded]="
+              perm.name.toLowerCase() === this.currentModule.toLowerCase()" *ngFor="let perm of perms"
+                        class="mat-elevation-z">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <div class="d-flex align-items-center">
+                                    <div class="d-flex justify-content-center" style="width: 35px;">
+                                        <i [ngClass]=" perm.icon"></i>
+                                    </div>
+                                    <div class="fw-bold fs-20">
+                                        {{ perm.name }}
+                                    </div>
+                                </div>
+
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <a [ngClass]="{active: page.route == this.currentUrl}" class="fs-18" mat-list-item
+                            *ngFor="let page of perm.pages" [routerLink]="[page.route]">{{
+                            page.name }}</a>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </mat-nav-list>
+        </div>
+    </mat-sidenav>
+    <mat-sidenav-content style=" height: 100%; padding: 20px">
+        <ng-content></ng-content>
+    </mat-sidenav-content>
+</mat-sidenav-container>

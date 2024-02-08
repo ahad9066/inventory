@@ -50,28 +50,29 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
   signIn() {
     console.log('submit', this.loginForm);
-    if (this.loginForm.valid) {
-      this.fetching = true;
-      this.subscriptions.push(
-        this.store.dispatch(new Login({ username: this.loginForm.value.username, password: this.loginForm.value.password })).subscribe(
-          () => {
-            const previousUrl = sessionStorage.getItem('previousUrl');
-            if (previousUrl) {
-              console.log("previousUrl", previousUrl)
-              sessionStorage.removeItem('previousUrl');
-              this.router.navigateByUrl(previousUrl);
-            } else {
-              this.router.navigateByUrl('/');
-            }
-          },
-          (error: HttpErrorResponse) => {
-            console.error('error: ', error);
-            this.fetching = false;
-            this.sharedService.showErrors("'Something went wrong! please try again!'");
-          }
-        )
-      );
-    }
+    this.router.navigateByUrl('/inventory/items');
+    // if (this.loginForm.valid) {
+    //   this.fetching = true;
+    //   this.subscriptions.push(
+    //     this.store.dispatch(new Login({ username: this.loginForm.value.username, password: this.loginForm.value.password })).subscribe(
+    //       () => {
+    //         const previousUrl = sessionStorage.getItem('previousUrl');
+    //         if (previousUrl) {
+    //           console.log("previousUrl", previousUrl)
+    //           sessionStorage.removeItem('previousUrl');
+    //           this.router.navigateByUrl(previousUrl);
+    //         } else {
+    //           this.router.navigateByUrl('/');
+    //         }
+    //       },
+    //       (error: HttpErrorResponse) => {
+    //         console.error('error: ', error);
+    //         this.fetching = false;
+    //         this.sharedService.showErrors("'Something went wrong! please try again!'");
+    //       }
+    //     )
+    //   );
+    // }
   }
   ngOnDestroy() {
     this.subscriptions.forEach((data) => data.unsubscribe());

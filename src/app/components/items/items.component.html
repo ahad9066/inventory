@@ -1,0 +1,94 @@
+<div class="items-parent-container">
+    <app-loader *ngIf="fetching"></app-loader>
+    <app-error [errorMsg]="errorMsg" *ngIf="showError"></app-error>
+    <div class="container">
+        <div class="title fw-bold text-center fs-24">
+            Inventory Stock
+        </div>
+        <div class=" p-3" *ngIf="!fetching">
+            <div class="items-container">
+                <mat-accordion class="example-headers-align" multi>
+                    <mat-expansion-panel class="mb-3" *ngFor="let item of sizeChart | keyvalue">
+                        <mat-expansion-panel-header class="mat-panel-header">
+                            <mat-panel-title>
+                                <div class="d-flex panel-header align-items-center">
+                                    <div class="p-2 size-img">
+                                        <img [src]="item.value.img" alt="">
+                                    </div>
+
+                                </div>
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                <div class="fw-bold text-center"> {{item.value.name}}</div>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div>
+                            <!-- <table border="1" style="width: 100%;" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Grade Name</th>
+                                        <th scope="col">Sub Grade Name</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Stock Count</th>
+                                    </tr>
+                                </thead>
+                                <ng-container *ngFor="let row of parsedList">
+                                    <ng-container *ngFor="let rrow of row.value">
+                                        <tbody>
+                                            <ng-container *ngIf="row.key == item.value.code">
+                                                <ng-container *ngFor="let subrow of rrow.subValue; let i = index ;">
+                                                    <tr *ngIf="i == 0 || subrow.name !== rrow.subValue[i - 1].name">
+                                                        <td [attr.rowspan]="getRowCount(rrow.subValue, subrow.name)">
+                                                            {{ subrow.name }}
+                                                        </td>
+                                                        <td>{{ subrow.subGradeName }}</td>
+                                                        <td>{{ subrow.price | currency: 'CAD' :'symbol-narrow' }}</td>
+                                                        <td>{{ subrow.stockCount }}</td>
+                                                    </tr>
+                                                </ng-container>
+                                            </ng-container>
+                                        </tbody>
+                                    </ng-container>
+                                </ng-container>
+                            </table> -->
+
+
+                            <table border="1" style="width: 100%;" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Grade Name</th>
+                                        <th scope="col">Sub Grade Name</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Stock Count</th>
+                                    </tr>
+                                </thead>
+                                <ng-container *ngFor="let row of parsedList">
+
+                                    <ng-container *ngFor="let rrow of row.value">
+
+                                        <ng-container *ngIf="row.key == item.value.code">
+
+                                            <tbody>
+                                                <tr *ngFor="let subrow of rrow.subValue; let i = index ;">
+                                                    <td>{{subrow.name}}</td>
+                                                    <td>{{subrow.subGradeName}}</td>
+                                                    <td>{{subrow.price | currency: 'CAD' :'symbol-narrow'}}</td>
+                                                    <td>{{subrow.stockCount}}</td>
+                                                </tr>
+                                            </tbody>
+
+
+
+                                        </ng-container>
+                                    </ng-container>
+                                </ng-container>
+                            </table>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+
+            </div>
+
+        </div>
+    </div>
+</div>

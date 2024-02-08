@@ -1,0 +1,18 @@
+.items-parent-container {
+    .items-container {
+        .mat-panel-header {
+            height: 100px !important;
+        }
+
+        .panel-header {
+            padding: 40px;
+
+            .size-img {
+                img {
+                    width: 100px;
+                    height: 100px;
+                }
+            }
+        }
+    }
+}

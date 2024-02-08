@@ -10,12 +10,10 @@ export class ApiService {
     }
 
 
-    public getCartItems(userId: any) {
-        return this.httpClient.get(`${environment.productsBaseUrl}/cart/${userId}`);
+    public getProducts() {
+        return this.httpClient.get(`${environment.productsBaseUrl}/feTi`);
     }
-    public addToCart(payload) {
-        return this.httpClient.post(`${environment.productsBaseUrl}/cart`, payload);
-    }
+
 
 
 }
