@@ -1,8 +1,7 @@
-import { UserDetails } from "../interfaces/user.interface";
-import { AddressHelper } from "./address.model";
+import { EmployeeDetails } from "../interfaces/user.interface";
 
 
-export class UserDetailsHelper {
+export class EmployeeDetailsHelper {
     static createFromResponse(data: {}) {
         return {
             _id: data['_id'] ? data['_id'] : null,
@@ -13,8 +12,8 @@ export class UserDetailsHelper {
             mobile: data['mobile'] ? data['mobile'] : null,
             isMobileVerified: data['isMobileVerified'] ? data['isMobileVerified'] : false,
             isEmailVerified: data['isEmailVerified'] ? data['isEmailVerified'] : false,
-            addresses: data['addresses'] ? [...data['addresses'].map((address: any) => AddressHelper.createFromResponse(address))] : []
-        } as UserDetails;
+            roles: data['roles'] ? data['roles'] : []
+        } as EmployeeDetails;
     }
     static toRequest(addone) {
         const data = this.createFromResponse(addone);

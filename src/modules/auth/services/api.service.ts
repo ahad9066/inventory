@@ -20,13 +20,13 @@ export class ApiService {
     }
 
     public login(data: any) {
-        return this.httpClient.post(`${environment.baseURL}/auth/login`, data);
+        return this.httpClient.post(`${environment.baseURL}/auth/employeeLogin`, data);
     }
     public logout() {
-        return this.httpClient.get(`${environment.baseURL}/auth/logout`);
+        return this.httpClient.get(`${environment.baseURL}/auth/employeeLogout`);
     }
-    public getUserDetails() {
-        return this.httpClient.get(`${environment.baseURL}/users/loggedInUser`);
+    public getEmployeeDetails(empId) {
+        return this.httpClient.get(`${environment.baseURL}/employee/${empId}`);
     }
 }
 

@@ -24,6 +24,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router, private store: Store, private sharedService: SharedService) { }
 
   ngOnInit(): void {
+    const isLoggedIn = window.sessionStorage.getItem('access_token');
+    if (isLoggedIn) {
+      this.router.navigateByUrl('/inventory/items');
+    }
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, this.usernameValidator()]],
       password: ['', [Validators.required]],
@@ -50,29 +54,22 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
   signIn() {
     console.log('submit', this.loginForm);
-    this.router.navigateByUrl('/inventory/items');
-    // if (this.loginForm.valid) {
-    //   this.fetching = true;
-    //   this.subscriptions.push(
-    //     this.store.dispatch(new Login({ username: this.loginForm.value.username, password: this.loginForm.value.password })).subscribe(
-    //       () => {
-    //         const previousUrl = sessionStorage.getItem('previousUrl');
-    //         if (previousUrl) {
-    //           console.log("previousUrl", previousUrl)
-    //           sessionStorage.removeItem('previousUrl');
-    //           this.router.navigateByUrl(previousUrl);
-    //         } else {
-    //           this.router.navigateByUrl('/');
-    //         }
-    //       },
-    //       (error: HttpErrorResponse) => {
-    //         console.error('error: ', error);
-    //         this.fetching = false;
-    //         this.sharedService.showErrors("'Something went wrong! please try again!'");
-    //       }
-    //     )
-    //   );
-    // }
+    // this.router.navigateByUrl('/inventory/items');
+    if (this.loginForm.valid) {
+      this.fetching = true;
+      this.subscriptions.push(
+        this.store.dispatch(new Login({ username: this.loginForm.value.username, password: this.loginForm.value.password })).subscribe(
+          () => {
+            this.router.navigateByUrl('/inventory/items');
+          },
+          (error: HttpErrorResponse) => {
+            console.error('error: ', error);
+            this.fetching = false;
+            this.sharedService.showErrors(error.error.message);
+          }
+        )
+      );
+    }
   }
   ngOnDestroy() {
     this.subscriptions.forEach((data) => data.unsubscribe());

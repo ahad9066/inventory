@@ -22,4 +22,5 @@ export interface Sizes {
     id: string;
     name: string;
     stockCount: string;
+    holdCount: string;
 }

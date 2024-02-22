@@ -20,6 +20,7 @@ import { HomeComponent } from './components/home/home.component';
 import { ItemsComponent } from './components/items/items.component';
 import { SidenavComponent } from './shared/sidenav/sidenav.component';
 import { PrimeNgModule } from './primeng.module';
+import { AuthGuard } from 'src/modules/auth/guards/auth-guard.service';
 
 export function ModuleConfigFactory(): AuthModule {
   return {
@@ -54,6 +55,7 @@ export function ModuleConfigFactory(): AuthModule {
   ],
   providers: [
     ApiService,
+    AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpReqResInterceptor,

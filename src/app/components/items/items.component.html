@@ -56,10 +56,11 @@
                             <table border="1" style="width: 100%;" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Grade Name</th>
-                                        <th scope="col">Sub Grade Name</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Stock Count</th>
+                                        <th scope="col" class="text-center">Grade Name</th>
+                                        <th scope="col" class="text-center">Sub Grade Name</th>
+                                        <th scope="col" class="text-center">Price</th>
+                                        <th scope="col" class="text-center">Stock Count</th>
+                                        <th scope="col" class="text-center">Items on Hold</th>
                                     </tr>
                                 </thead>
                                 <ng-container *ngFor="let row of parsedList">
@@ -70,10 +71,14 @@
 
                                             <tbody>
                                                 <tr *ngFor="let subrow of rrow.subValue; let i = index ;">
-                                                    <td>{{subrow.name}}</td>
-                                                    <td>{{subrow.subGradeName}}</td>
-                                                    <td>{{subrow.price | currency: 'CAD' :'symbol-narrow'}}</td>
-                                                    <td>{{subrow.stockCount}}</td>
+                                                    <td *ngIf="i == 0" class="grade-cell fw-bold" rowspan="2">
+                                                        {{subrow.name}}
+                                                    </td>
+                                                    <td class="text-center">{{subrow.subGradeName}}</td>
+                                                    <td class="text-center">{{subrow.price | currency: 'CAD'
+                                                        :'symbol-narrow'}}</td>
+                                                    <td class="text-center">{{subrow.stockCount}}</td>
+                                                    <td class="text-center">{{subrow.holdCount}}</td>
                                                 </tr>
                                             </tbody>
 

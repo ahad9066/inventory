@@ -3,6 +3,10 @@
 @import "./assets/common/theme.scss";
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
+.width100percent {
+    width: 100% !important;
+}
+
 .fs-12 {
     font-size: 12px;
 }
@@ -83,4 +87,9 @@
 
 .mat-form-field-flex {
     border-bottom: 2px solid $raw-umber !important;
+}
+
+.mat-expansion-panel-header-description {
+    display: flex;
+    justify-content: end;
 }

@@ -11,6 +11,7 @@ import { AuthState } from './store/state/auth.state';
 import { SharedModule } from '../shared/shared.module';
 import { AuthMaterialModule } from './auth-material.module';
 import { AuthRoutingModule } from './auth-routing.module';
+import { AuthGuard } from './guards/auth-guard.service';
 
 
 export { ModuleConfig };
@@ -48,6 +49,7 @@ export class AuthModule {
             ngModule: AuthModule,
             providers: [
                 ApiService,
+                AuthGuard,
                 {
                     provide: FOR_ROOT_OPTIONS_TOKEN,
                     useValue: options,

@@ -78,7 +78,8 @@ export const groupBySizesAndName = (jsonArray) => {
                     subGradeId: subGrade.id,
                     subGradeName: subGrade.name,
                     price: subGrade.price,
-                    stockCount: size.stockCount
+                    stockCount: size.stockCount,
+                    holdCount: size.holdCount
                 });
             });
         });

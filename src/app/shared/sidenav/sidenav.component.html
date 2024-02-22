@@ -1,4 +1,4 @@
-<mat-sidenav-container class="sidenav-container">
+<mat-sidenav-container class="sidenav-container" *ngIf="!fetching">
     <mat-sidenav #drawer class="sidenav" fixedInViewport fixedTopGap="52" [mode]="'side'" [opened]="true">
         <div class="sidenav-list">
             <mat-toolbar>
@@ -13,11 +13,33 @@
             </mat-toolbar>
             <mat-nav-list>
                 <mat-accordion [multi]="true">
-                    <mat-expansion-panel [expanded]="
-              perm.name.toLowerCase() === this.currentModule.toLowerCase()" *ngFor="let perm of perms"
-                        class="mat-elevation-z">
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>
+                    <ng-container *ngFor="let perm of perms">
+                        <mat-expansion-panel *ngIf="isModuleAccessible(perm)" [expanded]="
+              perm.name.toLowerCase() === this.currentModule.toLowerCase()" class="mat-elevation-z">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <div class="d-flex align-items-center">
+                                        <div class="d-flex justify-content-center" style="width: 35px;">
+                                            <i [ngClass]=" perm.icon"></i>
+                                        </div>
+                                        <div class="fw-bold fs-20">
+                                            {{ perm.name }}
+                                        </div>
+                                    </div>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <a [ngClass]="{active: page.route == this.currentUrl}" class="fs-18" mat-list-item
+                                *ngFor="let page of perm.pages" [routerLink]="[page.route]">{{
+                                page.name }}</a>
+                        </mat-expansion-panel>
+                    </ng-container>
+                </mat-accordion>
+                <!-- <div class="accordion" id="accordionPanelsStayOpenExample">
+                    <div class="accordion-item" *ngFor="let perm of perms; let i=index">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                [attr.data-bs-target]="'#panelsStayOpen-collapse'+ i " aria-expanded="false"
+                                [attr.aria-controls]="'panelsStayOpen-collapse' + i">
                                 <div class="d-flex align-items-center">
                                     <div class="d-flex justify-content-center" style="width: 35px;">
                                         <i [ngClass]=" perm.icon"></i>
@@ -26,14 +48,17 @@
                                         {{ perm.name }}
                                     </div>
                                 </div>
-
-                            </mat-panel-title>
-                        </mat-expansion-panel-header>
-                        <a [ngClass]="{active: page.route == this.currentUrl}" class="fs-18" mat-list-item
-                            *ngFor="let page of perm.pages" [routerLink]="[page.route]">{{
-                            page.name }}</a>
-                    </mat-expansion-panel>
-                </mat-accordion>
+                            </button>
+                        </h2>
+                        <div [id]="'panelsStayOpen-collapse' + i" class="accordion-collapse collapse ">
+                            <div class="accordion-body">
+                                <a [ngClass]="{active: page.route == this.currentUrl}" class="fs-18" mat-list-item
+                                    *ngFor="let page of perm.pages" [routerLink]="[page.route]">{{
+                                    page.name }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
             </mat-nav-list>
         </div>
     </mat-sidenav>

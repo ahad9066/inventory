@@ -1,25 +1,28 @@
 import { Injectable } from "@angular/core";
 import { Action, State, StateContext } from "@ngxs/store";
-import { UserDetailsHelper } from "../../schema/models/user.model";
-import { UserDetails } from "../../schema/interfaces/user.interface";
-import { GetUserDetails, Login, Logout, SetIsLoggedIn, SignUp } from "../actions/auth.action";
+import { EmployeeDetailsHelper } from "../../schema/models/user.model";
+import { EmployeeDetails } from "../../schema/interfaces/user.interface";
+import { GetEmployeeDetails, Login, Logout, SetIsLoggedIn, SignUp } from "../actions/auth.action";
 import { ApiService } from "../../services/api.service";
 import { tap } from "rxjs";
+import { jwtDecode } from "jwt-decode";
+import { Router } from "@angular/router";
 
 export class AuthStateModel {
-    userDetails: UserDetails;
-    isLoggedIn: Boolean;
+    userDetails: EmployeeDetails;
+    isLoggedIn: boolean;
 }
 @State<AuthStateModel>({
     name: 'User',
     defaults: {
-        userDetails: UserDetailsHelper.createFromResponse({}),
+        userDetails: EmployeeDetailsHelper.createFromResponse({}),
         isLoggedIn: false
     },
 })
 @Injectable()
 export class AuthState {
-    constructor(private apiService: ApiService
+    constructor(private apiService: ApiService,
+        private router: Router
     ) {
     }
 
@@ -30,7 +33,7 @@ export class AuthState {
     ) {
         return this.apiService.login(payload).pipe(
             tap(
-                (res: { token: string, userDetails: UserDetails }) => {
+                (res: { token: string, userDetails: EmployeeDetails }) => {
                     window.sessionStorage.setItem('access_token', res.token);
                     patchState({
                         userDetails: res.userDetails,
@@ -50,7 +53,7 @@ export class AuthState {
     ) {
         return this.apiService.signUp(payload).pipe(
             tap(
-                (r: UserDetails) => {
+                (r: EmployeeDetails) => {
                     patchState({
                         userDetails: r,
                     });
@@ -63,12 +66,15 @@ export class AuthState {
     }
     @Action(SetIsLoggedIn)
     setIsLoggedIn(
-        { patchState }: StateContext<AuthStateModel>,
+        { patchState, dispatch }: StateContext<AuthStateModel>,
         { isLoggedIn }: SetIsLoggedIn
     ) {
+        const decodedToken = jwtDecode(window.sessionStorage.getItem('access_token'));
+        const user = decodedToken['user'];
         patchState({
             isLoggedIn: isLoggedIn,
         });
+        dispatch(new GetEmployeeDetails(user._id))
     }
     @Action(Logout)
     logout(
@@ -76,12 +82,13 @@ export class AuthState {
     ) {
         return this.apiService.logout().pipe(
             tap(
-                (r: UserDetails) => {
+                (r: EmployeeDetails) => {
                     window.sessionStorage.removeItem('access_token');
                     patchState({
                         userDetails: null,
                         isLoggedIn: false
                     });
+                    this.router.navigateByUrl("/auth/login")
                 },
                 (error) => {
                     return error;
@@ -89,13 +96,14 @@ export class AuthState {
             )
         );
     }
-    @Action(GetUserDetails)
-    getUserDetails(
-        { patchState }: StateContext<AuthStateModel>
+    @Action(GetEmployeeDetails)
+    getEmployeeDetails(
+        { patchState }: StateContext<AuthStateModel>,
+        { empId }: GetEmployeeDetails
     ) {
-        return this.apiService.getUserDetails().pipe(
+        return this.apiService.getEmployeeDetails(empId).pipe(
             tap(
-                (r: UserDetails) => {
+                (r: EmployeeDetails) => {
                     patchState({
                         userDetails: r
                     });

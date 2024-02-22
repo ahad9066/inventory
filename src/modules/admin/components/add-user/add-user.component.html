@@ -1,0 +1,107 @@
+<div class="add-user-container">
+    <app-loader *ngIf="fetching"></app-loader>
+    <div class="container">
+        <div class="title fw-bold text-center fs-22">Add Employees for Inventory Access</div>
+        <form [formGroup]="addEmployeeForm">
+            <div class="form-container row">
+                <div class="col-6">
+                    <div class="form-field-container">
+                        <mat-form-field class="form-field" appearance="outline">
+                            <mat-label>First Name</mat-label>
+                            <input matInput placeholder="Placeholder" formControlName="firstName" />
+                            <mat-error *ngIf="
+                    addEmployeeForm.controls.firstName.touched &&
+                    (addEmployeeForm.controls.firstName.hasError('required') ||
+                    addEmployeeForm.controls.firstName.hasError('pattern'))
+                  ">Please enter a valid name</mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <div class="form-field-container">
+                        <mat-form-field class="form-field" appearance="outline">
+                            <mat-label>Last Name</mat-label>
+                            <input matInput placeholder="Placeholder" formControlName="lastName" />
+                            <mat-error *ngIf="
+                    addEmployeeForm.controls.lastName.touched &&
+                    (addEmployeeForm.controls.lastName.hasError('required') ||
+                    addEmployeeForm.controls.lastName.hasError('pattern'))
+                  ">Please enter a valid name</mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <div class="form-field-container">
+                        <mat-form-field class="form-field" appearance="outline">
+                            <mat-label>Password</mat-label>
+                            <input [type]="showPass ? 'text' : 'password'" matInput placeholder="Placeholder"
+                                formControlName="password" />
+                            <span matSuffix (click)="showPass = !showPass" class="cursor-pointer">
+                                <i *ngIf="showPass" class="fa-solid fa-eye"></i>
+                                <i *ngIf="!showPass" class="fa-solid fa-eye-slash"></i>
+                            </span>
+                            <mat-error *ngIf="
+                        addEmployeeForm.controls.password.touched &&
+                        (addEmployeeForm.controls.password.hasError('required') ||
+                        addEmployeeForm.controls.password.hasError('pattern'))
+                      ">Please enter a valid password</mat-error>
+                        </mat-form-field>
+
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-field-container">
+                        <mat-form-field class="form-field" appearance="outline">
+                            <mat-label>Mobile Number</mat-label>
+                            <span matPrefix>+1 &nbsp;</span>
+                            <input type="tel" matInput placeholder="555-555-1234" formControlName="mobile" />
+                            <mat-error *ngIf="
+                      addEmployeeForm.controls.mobile.touched &&
+                      (addEmployeeForm.controls.mobile.hasError('required') ||
+                      addEmployeeForm.controls.mobile.hasError('pattern'))
+                    ">Please enter a valid mobile number</mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <div class="form-field-container">
+                        <mat-form-field class="form-field" appearance="outline">
+                            <mat-label>Email</mat-label>
+                            <input matInput placeholder="Placeholder" formControlName="email" />
+                            <mat-error *ngIf="
+                      addEmployeeForm.controls.email.touched &&
+                      (addEmployeeForm.controls.email.hasError('required') ||
+                      addEmployeeForm.controls.email.hasError('pattern'))
+                    ">Please enter a valid email</mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <div class="form-field-container">
+                        <mat-form-field class="form-field" appearance="outline">
+                            <mat-label>Roles</mat-label>
+                            <mat-select formControlName="roles" multiple>
+                                <mat-select-trigger>
+                                    {{ addEmployeeForm.controls.roles.value?.[0] || '' }}
+                                    <ng-container *ngIf="addEmployeeForm.controls.roles.value?.length > 1">
+                                        <span class="example-additional-selection">
+                                            (+{{ addEmployeeForm.controls.roles.value?.length - 1 }} {{
+                                            addEmployeeForm.controls.roles.value?.length === 2 ? 'other' : 'others' }})
+                                        </span>
+                                    </ng-container>
+                                </mat-select-trigger>
+                                <mat-option *ngFor="let role of rolesList" [value]="role">{{ role }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="container button-container mt-4">
+        <div class="buttons d-flex justify-content-center">
+            <button mat-button class="secondary-btn mx-3" (click)="reset()">Reset</button>
+            <button mat-flat-button class="bg-rose-taupe color-white fs-18" (click)="submit()">
+                Submit
+            </button>
+        </div>
+    </div>
+</div>

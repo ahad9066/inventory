@@ -1,4 +1,4 @@
-import { UserDetails } from "../../schema/interfaces/user.interface";
+
 
 export class Login {
     static readonly type = '[Login] Login';
@@ -13,9 +13,9 @@ export class SignUp {
 }
 export class SetIsLoggedIn {
     static readonly type = '[SignUp] Set Is Logged In ';
-    constructor(public isLoggedIn: Boolean) { }
+    constructor(public isLoggedIn: boolean) { }
 }
-export class GetUserDetails {
-    static readonly type = '[Header] Get User Details';
-    constructor() { }
+export class GetEmployeeDetails {
+    static readonly type = '[Header] Get Employee Details';
+    constructor(public empId: any) { }
 }

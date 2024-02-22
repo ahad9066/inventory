@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Store } from '@ngxs/store';
+import { jwtDecode } from 'jwt-decode';
 import { filter } from 'rxjs';
+import { ROLES } from 'src/modules/auth/roles.constants';
 
 @Component({
   selector: 'app-sidenav',
@@ -12,27 +15,31 @@ export class SidenavComponent implements OnInit {
     {
       name: "Inventory",
       icon: "fa-solid fa-warehouse me-2 color-raw-umber ",
+      roles: [ROLES.ADMIN, ROLES.MANAGER, ROLES.SALES],
       pages: [
         {
           route: '/inventory/items',
-          name: "Items"
+          name: "Items",
+          roles: [ROLES.ADMIN],
         },
         {
           route: '/inventory/salesreport',
-          name: "Sales Report"
+          name: "Sales Report",
+          roles: [ROLES.ADMIN],
         }
       ]
     },
     {
       name: "Orders",
       icon: "fa-solid fa-cart-shopping  me-2 color-raw-umber",
+      roles: [ROLES.ADMIN, ROLES.MANAGER, ROLES.SALES],
       pages: [
         {
-          route: '/orders/items',
+          route: '/orders/pendingOrders',
           name: "Pending Orders"
         },
         {
-          route: '/orders/salesreport',
+          route: '/orders/completedOrders',
           name: "Completed Orders"
         }
       ]
@@ -40,6 +47,7 @@ export class SidenavComponent implements OnInit {
     {
       name: "Invoice",
       icon: "fa-solid fa-file-invoice  me-2 color-raw-umber",
+      roles: [ROLES.ADMIN, ROLES.MANAGER, ROLES.SALES],
       pages: [
         {
           route: '/invoice/items',
@@ -54,6 +62,7 @@ export class SidenavComponent implements OnInit {
     {
       name: "Customers",
       icon: "fa-solid fa-file-invoice  me-2 color-raw-umber",
+      roles: [ROLES.ADMIN, ROLES.MANAGER, ROLES.SALES],
       pages: [
         {
           route: '/customers/items',
@@ -64,18 +73,64 @@ export class SidenavComponent implements OnInit {
           name: "User Carts"
         }
       ]
+    },
+    {
+      name: "Admin",
+      icon: "fa-solid fa-user-tie me-2 color-raw-umber",
+      roles: [ROLES.ADMIN],
+      pages: [
+        {
+          route: '/admin/addEmployee',
+          name: "Add Employees",
+          roles: [ROLES.ADMIN],
+        },
+        {
+          route: '/admin/employeesList',
+          name: "Employees List",
+          roles: [ROLES.ADMIN],
+        }
+      ]
     }
   ];
   currentUrl = null;
   currentModule = '';
-  constructor(private router: Router) {
+  currentUserRoles = [];
+  fetching = true;
+  constructor(
+    private router: Router, private route: ActivatedRoute, private store: Store) {
   }
 
   ngOnInit(): void {
-    console.log("im onint", this.router.url)
-    this.currentModule = this.router.url.split('/')[1];
-    this.currentUrl = this.router.url;
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      console.log('Current sidenav URL:', event.url);
+      this.currentModule = this.router.url.split('/')[1];
+      this.currentUrl = this.router.url;
+      this.fetching = false;
+    });
+    const token = window.sessionStorage.getItem('access_token');
+    if (!!token) {
+      const decodedToken = jwtDecode(token);
+      this.currentUserRoles = decodedToken['user']['roles'];
+    }
     console.log("im onint", this.currentUrl, this.currentModule)
   }
-
+  isModuleAccessible(module) {
+    let count = 0;
+    if (this.currentUserRoles.length > 0) {
+      for (const role of this.currentUserRoles) {
+        if (module.roles.includes(role.toLowerCase())) {
+          count++;
+        }
+      }
+      if (count > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
 }

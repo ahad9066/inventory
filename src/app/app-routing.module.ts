@@ -4,6 +4,8 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from 'src/modules/auth/components/login/login.component';
 import { SignupComponent } from 'src/modules/auth/components/signup/signup.component';
 import { ItemsComponent } from './components/items/items.component';
+import { AuthGuard } from 'src/modules/auth/guards/auth-guard.service';
+import { ROLES } from 'src/modules/auth/roles.constants';
 
 const routes: Routes = [
   {
@@ -20,8 +22,28 @@ const routes: Routes = [
   },
   {
     path: 'inventory/items',
-    component: ItemsComponent
-  }
+    component: ItemsComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [ROLES.ADMIN, ROLES.SALES, ROLES.MANAGER] }
+  },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('../wrappers/admin.wrapper').then(
+        (m) => m.AdminWrapperModule
+      ),
+    canActivate: [AuthGuard],
+    data: { roles: [ROLES.ADMIN] }
+  },
+  {
+    path: 'orders',
+    loadChildren: () =>
+      import('../wrappers/orders.wrapper').then(
+        (m) => m.OrderWrapperModule
+      ),
+    canActivate: [AuthGuard],
+    data: { roles: [ROLES.ADMIN, ROLES.SALES, ROLES.MANAGER] }
+  },
 ];
 
 @NgModule({

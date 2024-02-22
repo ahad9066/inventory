@@ -1,0 +1,135 @@
+<div class="pending-orders-container">
+    <app-loader *ngIf="fetching"></app-loader>
+    <div class="container">
+        <div class="mb-4 title fw-bold fs-22 text-center">
+            Pending Orders List
+        </div>
+        <div class="mt-4 orders-container">
+            <mat-accordion class="example-headers-align" multi>
+                <mat-expansion-panel *ngFor="let order of ordersList">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <span class="color-caramel fs-22 fw-bold">Order ID: &nbsp;</span>
+                            <span class="fw-bold fs-20">{{order.orderId}}</span>
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            <div class="fw-bold fs-22"> <span class="color-caramel">Total Amount:&nbsp;</span>
+                                <span>{{order.totalAmount | currency: 'CAD' :'symbol-narrow'}}</span>
+                            </div>
+                            <!-- <mat-icon>account_circle</mat-icon> -->
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="order-details-container">
+                        <div class="mb-2 d-flex justify-content-between fs-18">
+                            <div class="d-flex">
+                                <div class="fw-bold color-raw-umber ">Name: &nbsp;</div>
+                                <div>{{order.firstName}}&nbsp;{{order.lastName}}</div>
+                            </div>
+
+                        </div>
+                        <div class="mb-2 d-flex fs-18">
+                            <div class="fw-bold color-raw-umber ">Address: &nbsp;</div>
+                            <div>{{order.address.unitNumber}},&nbsp;
+                                {{order.address.buildingNumber}},&nbsp;
+                                {{order.address.streetName}},&nbsp;
+                                {{order.address.city}},&nbsp;
+                                {{order.address.province}},&nbsp;
+                                {{order.address.country}},&nbsp;
+                                {{order.address.postalCode}}&nbsp;
+                            </div>
+                        </div>
+                        <div class="mb-2 d-flex justify-content-between fs-18">
+                            <div class="d-flex">
+                                <div class="fw-bold color-raw-umber "> Order Status: &nbsp;</div>
+                                <div>{{order.status}}</div>
+                            </div>
+
+                        </div>
+                        <div class="table-container mt-4 mb-4">
+                            <table mat-table [dataSource]="order.orderItems" class="width100percent mat-elevation-z8">
+
+                                <!--- Note that these columns can be defined in any order.
+                                      The actual rendered columns are set as a property on the row definition" -->
+
+                                <!-- Position Column -->
+                                <ng-container matColumnDef="index">
+                                    <th mat-header-cell *matHeaderCellDef> S.No. </th>
+                                    <td mat-cell *matCellDef="let element; let index = index"> {{index + 1}} </td>
+                                </ng-container>
+                                <!-- Name Column -->
+                                <ng-container matColumnDef="productName">
+                                    <th mat-header-cell *matHeaderCellDef> Product Name </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.product.name}} </td>
+                                </ng-container>
+
+                                <!-- Weight Column -->
+                                <ng-container matColumnDef="subGradeName">
+                                    <th mat-header-cell *matHeaderCellDef> SubGrade Name</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.subGrade.name}} </td>
+                                </ng-container>
+
+                                <!-- Symbol Column -->
+                                <ng-container matColumnDef="size">
+                                    <th mat-header-cell *matHeaderCellDef> Size </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.size.name}}{{element.mobile}}
+                                    </td>
+                                </ng-container>
+                                <!-- Symbol Column -->
+                                <ng-container matColumnDef="quantity">
+                                    <th mat-header-cell *matHeaderCellDef> Quantity </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="price">
+                                    <th mat-header-cell *matHeaderCellDef> Price </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.price | currency: 'CAD'
+                                        :'symbol-narrow'}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="totalPrice">
+                                    <th mat-header-cell *matHeaderCellDef> Total Price </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.quantity * element.price |
+                                        currency: 'CAD' :'symbol-narrow'}} </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                        </div>
+                        <div *ngIf="isManager" class="payment-update-container d-flex justify-content-end">
+                            <button (click)="updateOrderStatus(order)"
+                                class="p-2 px-3 bg-raw-umber color-white fw-bold fs-18" mat-raised-button
+                                mat-suffix>Update Order Status</button>
+                        </div>
+                    </div>
+
+                </mat-expansion-panel>
+
+            </mat-accordion>
+        </div>
+    </div>
+</div>
+<ng-template #updatePaymentTemplate>
+    <div class="container">
+        <div class="title text-center fw-bold fs-22 mb-4">Update Order Status</div>
+        <div class="mt-4 status d-flex justify-content-between align-items-center">
+            <div>
+                <mat-form-field>
+                    <mat-label>Current Status</mat-label>
+                    <mat-select readonly [(value)]="currentStatus">
+                        <mat-option [value]="currentOrder.status">{{currentOrder.status}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div>
+                To
+            </div>
+            <div>
+                <mat-form-field>
+                    <mat-label>Update Status</mat-label>
+                    <mat-select [(value)]="changeStatus">
+                        <mat-option value="payment_done">Payment Done</mat-option>
+                        <mat-option value="order_cancelled">Order Cancelled</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</ng-template>
