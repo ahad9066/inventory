@@ -1,11 +1,11 @@
-<div class="completed-orders-container">
+<div class="cancelled-orders-container">
     <app-loader *ngIf="fetching"></app-loader>
     <div class="container">
         <div class="mb-4 title fw-bold fs-22 text-center">
-            Completed Orders List
+            Cancelled Orders List
         </div>
-        <div class="mt-4 orders-container" *ngIf="!fetching">
-            <mat-accordion *ngIf="ordersList.length > 0" class="example-headers-align orders-items-container" multi>
+        <div class="mt-4 orders-container">
+            <mat-accordion class="example-headers-align orders-items-container" multi>
                 <mat-expansion-panel *ngFor="let order of ordersList">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
@@ -41,12 +41,9 @@
                         <div class="mb-2 d-flex justify-content-between fs-18">
                             <div class="d-flex">
                                 <div class="fw-bold color-raw-umber "> Order Status: &nbsp;</div>
-                                <div class="fw-bold">{{order.status}}</div>
+                                <div class="color-red fw-bold">{{order.status}}</div>
                             </div>
-                            <div class="invoice-container">
-                                <a class="text-decoration-underline color-blue cursor-pointer"
-                                    (click)="downloadInvoice(order)"> Download Invoice</a>
-                            </div>
+
                         </div>
                         <div class="table-container mt-4 mb-4">
                             <table mat-table [dataSource]="order.orderItems" class="width100percent mat-elevation-z8">
@@ -96,51 +93,12 @@
                                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                             </table>
                         </div>
-                        <!-- <div *ngIf="isManager" class="payment-update-container d-flex justify-content-end">
-                            <button (click)="updateOrderStatus(order)"
-                                class="p-2 px-3 bg-raw-umber color-white fw-bold fs-18" mat-raised-button
-                                mat-suffix>Update Order Status</button>
-                        </div> -->
+
                     </div>
 
                 </mat-expansion-panel>
 
             </mat-accordion>
-            <div *ngIf="ordersList.length == 0">
-                <p class="text-center fw-bold mt-5 pt-5 fs-22">There are currently no completed orders</p>
-            </div>
         </div>
     </div>
 </div>
-<!-- <ng-template #updatePaymentTemplate>
-    <div class="container">
-        <div class="title text-center fw-bold fs-22 mb-4">Update Order Status</div>
-        <div class="mt-4 status d-flex justify-content-between align-items-center">
-            <div>
-                <mat-form-field>
-                    <mat-label>Current Status</mat-label>
-                    <mat-select readonly [(value)]="currentStatus">
-                        <mat-option [value]="currentOrder.status">{{currentOrder.status}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div>
-                To
-            </div>
-            <div>
-                <mat-form-field>
-                    <mat-label>Update Status</mat-label>
-                    <mat-select [(value)]="changeStatus">
-                        <mat-option value="payment_done">Payment Done</mat-option>
-                        <mat-option value="order_cancelled">Order Cancelled</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-        </div>
-        <div class="button-container d-flex justify-content-center align-items-center">
-
-            <button (click)="updatePayment()" class="p-2 px-3 bg-raw-umber color-white fw-bold fs-18" mat-raised-button
-                mat-suffix>Update Payment Status</button>
-        </div>
-    </div>
-</ng-template> -->

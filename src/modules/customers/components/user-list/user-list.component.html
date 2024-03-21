@@ -1,0 +1,111 @@
+<div class="customer-list-container">
+    <app-loader *ngIf="fetching"></app-loader>
+    <div class="container">
+        <div class="mb-4 title fw-bold fs-22 text-center">
+            Customers List
+        </div>
+        <div class="mt-4 table-container" *ngIf="!fetching">
+            <table mat-table [dataSource]="usersList" class="mat-elevation-z8">
+
+                <!--- Note that these columns can be defined in any order.
+                          The actual rendered columns are set as a property on the row definition" -->
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="index">
+                    <th mat-header-cell *matHeaderCellDef> S.No. </th>
+                    <td mat-cell *matCellDef="let element; let index = index"> {{index + 1}} </td>
+                </ng-container>
+                <ng-container matColumnDef="customerId">
+                    <th mat-header-cell *matHeaderCellDef> customerId</th>
+                    <td mat-cell *matCellDef="let element"> {{element._id}} </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="firstName">
+                    <th mat-header-cell *matHeaderCellDef> First Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="lastName">
+                    <th mat-header-cell *matHeaderCellDef> Last Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="mobile">
+                    <th mat-header-cell *matHeaderCellDef> Mobile </th>
+                    <td mat-cell *matCellDef="let element"> {{element.countryCode}}{{element.mobile}} </td>
+                </ng-container>
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef> Email </th>
+                    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                </ng-container>
+                <tr class="fw-bold" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr (click)="showUserDetails(row)" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <div *ngIf="usersList.length == 0">
+                <p class="text-center fw-bold mt-5 pt-5 fs-22">There are currently no customers</p>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #customerDetailsTemplate>
+    <div class="container customer-details-address">
+        <div class="title text-center fw-bold fs-22 mb-4">Customer Details</div>
+        <div class="mt-4 status d-flex flex-wrap row row-cols-2 justify-content-between align-items-center">
+            <div *ngIf="selectedUser.addresses[0].unitNumber" class="form-field-container col">
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Unit Number</mat-label>
+                    <input readonly [value]="selectedUser.addresses[0].unitNumber" matInput placeholder="Placeholder" />
+                </mat-form-field>
+            </div>
+            <div *ngIf="selectedUser.addresses[0].buildingNumber" class="form-field-container col">
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Building Number</mat-label>
+                    <input readonly [value]="selectedUser.addresses[0].buildingNumber" matInput
+                        placeholder="Placeholder" />
+                </mat-form-field>
+            </div>
+            <div class="form-field-container col">
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Street Name</mat-label>
+                    <input readonly [value]="selectedUser.addresses[0].streetName" matInput placeholder="Placeholder" />
+                </mat-form-field>
+            </div>
+            <div class="form-field-container col">
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>City</mat-label>
+                    <input readonly [value]="selectedUser.addresses[0].city" matInput placeholder="Placeholder" />
+                </mat-form-field>
+            </div>
+            <div class="form-field-container col">
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Province</mat-label>
+                    <input readonly [value]="selectedUser.addresses[0].province" matInput placeholder="Placeholder" />
+                </mat-form-field>
+            </div>
+            <div class="form-field-container col">
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Country</mat-label>
+                    <input readonly [value]="selectedUser.addresses[0].country" matInput placeholder="Placeholder" />
+                </mat-form-field>
+            </div>
+            <div class="form-field-container col">
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Postal Code</mat-label>
+                    <input readonly [value]="selectedUser.addresses[0].postalCode" matInput placeholder="Placeholder" />
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="button-container d-flex justify-content-center align-items-center">
+
+            <button (click)="close()" class="p-2 px-3 bg-raw-umber color-white fw-bold fs-18" mat-raised-button
+                mat-suffix>Close</button>
+        </div>
+    </div>
+</ng-template>

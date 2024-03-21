@@ -41,6 +41,10 @@ export class SidenavComponent implements OnInit {
         {
           route: '/orders/completedOrders',
           name: "Completed Orders"
+        },
+        {
+          route: '/orders/cancelledOrders',
+          name: "Cancelled Orders"
         }
       ]
     },
@@ -65,11 +69,11 @@ export class SidenavComponent implements OnInit {
       roles: [ROLES.ADMIN, ROLES.MANAGER, ROLES.SALES],
       pages: [
         {
-          route: '/customers/items',
+          route: '/customers/list',
           name: "User List"
         },
         {
-          route: '/customers/salesreport',
+          route: '/customers/cart',
           name: "User Carts"
         }
       ]

@@ -13,7 +13,9 @@ export class ApiService {
     public getProducts() {
         return this.httpClient.get(`${environment.productsBaseUrl}/feTi`);
     }
-
+    public getOrders() {
+        return this.httpClient.get(`${environment.productsBaseUrl}/orders/all`);
+    }
 
 
 }

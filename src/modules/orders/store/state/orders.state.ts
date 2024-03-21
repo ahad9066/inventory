@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Action, State, StateContext } from "@ngxs/store";
 import { ApiService } from "../../services/api.service";
 import { tap } from "rxjs";
-import { GetOrders } from "../actions/orders.action";
+import { GetOrders, UpdatePaymentStatus } from "../actions/orders.action";
 import { Order } from "../../schema/interface/orders.interface";
 
 export class OrdersStateModel {
@@ -29,6 +29,27 @@ export class OrdersState {
                 (r: any) => {
                     patchState({
                         ordersList: r.orders,
+                    });
+                },
+                (error) => {
+                    return error;
+                }
+            )
+        );
+    }
+
+    @Action(UpdatePaymentStatus)
+    updatePaymentStatus(
+        { patchState, getState }: StateContext<OrdersStateModel>,
+        { payload }: UpdatePaymentStatus
+    ) {
+        return this.apiService.updatePaymentStatus(payload).pipe(
+            tap(
+                (res: any) => {
+                    const list = getState().ordersList.map(order =>
+                        order.orderId == res.orderId ? res : order)
+                    patchState({
+                        ordersList: list,
                     });
                 },
                 (error) => {

@@ -6,11 +6,11 @@ import { ApiService, ModuleConfig } from './services/api.service';
 import { NgxsModule } from '@ngxs/store';
 import { SharedModule } from '../shared/shared.module';
 import { SharedMaterialModule } from '../shared/shared-material.module';
-import { OrdersRoutingModule } from './orders-routing.module';
-import { OrdersState } from './store/state/orders.state';
-import { PendingOrdersComponent } from './components/pending-orders/pending-orders.component';
-import { CompletedOrdersComponent } from './components/completed-orders/completed-orders.component';
-import { CancelledOrdersComponent } from './components/cancelled-orders/cancelled-orders.component';
+import { CustomersRoutingModule } from './customers-routing.module';
+import { UserListComponent } from './components/user-list/user-list.component';
+import { UserCartsComponent } from './components/user-carts/user-carts.component';
+import { CustomersState } from './store/state/customer.state';
+// import { AdminState } from './store/state/admin.state';
 
 
 export { ModuleConfig };
@@ -25,25 +25,24 @@ export const FOR_ROOT_OPTIONS_TOKEN = new InjectionToken<ModuleOptions>(
 
 @NgModule({
     declarations: [
-    
-    PendingOrdersComponent,
-         CompletedOrdersComponent,
-         CancelledOrdersComponent
-  ],
+
+        UserListComponent,
+        UserCartsComponent
+    ],
     imports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        OrdersRoutingModule,
-        NgxsModule.forFeature([OrdersState]),
+        CustomersRoutingModule,
+        NgxsModule.forFeature([CustomersState]),
         SharedModule,
         SharedMaterialModule
     ],
 })
-export class OrdersModule {
-    static forRoot(options?: ModuleOptions): ModuleWithProviders<OrdersModule> {
+export class CustomersModule {
+    static forRoot(options?: ModuleOptions): ModuleWithProviders<CustomersModule> {
         return {
-            ngModule: OrdersModule,
+            ngModule: CustomersModule,
             providers: [
                 ApiService,
                 {

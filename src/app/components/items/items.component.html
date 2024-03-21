@@ -1,13 +1,13 @@
 <div class="items-parent-container">
     <app-loader *ngIf="fetching"></app-loader>
     <app-error [errorMsg]="errorMsg" *ngIf="showError"></app-error>
-    <div class="container">
+    <div class="container" *ngIf="!fetching && !showError">
         <div class="title fw-bold text-center fs-24">
             Inventory Stock
         </div>
-        <div class=" p-3" *ngIf="!fetching">
+        <div class=" p-3">
             <div class="items-container">
-                <mat-accordion class="example-headers-align" multi>
+                <mat-accordion class="example-headers-align inventory-items-container" multi>
                     <mat-expansion-panel class="mb-3" *ngFor="let item of sizeChart | keyvalue">
                         <mat-expansion-panel-header class="mat-panel-header">
                             <mat-panel-title>

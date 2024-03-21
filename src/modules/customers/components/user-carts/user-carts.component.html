@@ -1,55 +1,49 @@
-<div class="completed-orders-container">
+<div class="cart-list-container">
     <app-loader *ngIf="fetching"></app-loader>
     <div class="container">
         <div class="mb-4 title fw-bold fs-22 text-center">
-            Completed Orders List
+            Customers Cart Items List
         </div>
-        <div class="mt-4 orders-container" *ngIf="!fetching">
-            <mat-accordion *ngIf="ordersList.length > 0" class="example-headers-align orders-items-container" multi>
-                <mat-expansion-panel *ngFor="let order of ordersList">
+        <div class="mt-4 table-container" *ngIf="!fetching">
+            <mat-accordion class="example-headers-align orders-items-container" multi>
+                <mat-expansion-panel *ngFor="let cart of cartList">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            <span class="color-caramel fs-22 fw-bold">Order ID: &nbsp;</span>
-                            <span class="fw-bold fs-20">{{order.orderId}}</span>
+                            <span class="color-caramel fs-22 fw-bold">User ID: &nbsp;</span>
+                            <span class="fw-bold fs-18">{{cart.userId}}</span>
                         </mat-panel-title>
                         <mat-panel-description>
-                            <div class="fw-bold fs-22"> <span class="color-caramel">Total Amount:&nbsp;</span>
-                                <span>{{order.totalAmount | currency: 'CAD' :'symbol-narrow'}}</span>
+                            <div>
+                                <div class="fw-bold fs-22"> <span class="color-caramel">Created At:&nbsp;</span>
+                                    <span>{{cart.createdAt | date: 'dd/MM/yyyy HH:mm:ss'}}</span>
+                                </div>
+                                <!-- <div class="fw-bold fs-22"> <span class="color-caramel">Last Updated At:&nbsp;</span>
+                                    <span>{{cart.updatedAt | date: 'dd/MM/yyyy HH:mm:ss'}}</span>
+                                </div> -->
                             </div>
-                            <!-- <mat-icon>account_circle</mat-icon> -->
                         </mat-panel-description>
                     </mat-expansion-panel-header>
                     <div class="order-details-container">
                         <div class="mb-2 d-flex justify-content-between fs-18">
                             <div class="d-flex">
                                 <div class="fw-bold color-raw-umber ">Name: &nbsp;</div>
-                                <div>{{order.firstName}}&nbsp;{{order.lastName}}</div>
+                                <div>{{cart.userDetails.firstName}}&nbsp;{{cart.userDetails.lastName}}</div>
                             </div>
 
                         </div>
                         <div class="mb-2 d-flex fs-18">
                             <div class="fw-bold color-raw-umber ">Address: &nbsp;</div>
-                            <div>{{order.address.unitNumber}},&nbsp;
-                                {{order.address.buildingNumber}},&nbsp;
-                                {{order.address.streetName}},&nbsp;
-                                {{order.address.city}},&nbsp;
-                                {{order.address.province}},&nbsp;
-                                {{order.address.country}},&nbsp;
-                                {{order.address.postalCode}}&nbsp;
-                            </div>
-                        </div>
-                        <div class="mb-2 d-flex justify-content-between fs-18">
-                            <div class="d-flex">
-                                <div class="fw-bold color-raw-umber "> Order Status: &nbsp;</div>
-                                <div class="fw-bold">{{order.status}}</div>
-                            </div>
-                            <div class="invoice-container">
-                                <a class="text-decoration-underline color-blue cursor-pointer"
-                                    (click)="downloadInvoice(order)"> Download Invoice</a>
+                            <div>{{cart.userDetails.addresses[0].unitNumber}},&nbsp;
+                                {{cart.userDetails.addresses[0].buildingNumber}},&nbsp;
+                                {{cart.userDetails.addresses[0].streetName}},&nbsp;
+                                {{cart.userDetails.addresses[0].city}},&nbsp;
+                                {{cart.userDetails.addresses[0].province}},&nbsp;
+                                {{cart.userDetails.addresses[0].country}},&nbsp;
+                                {{cart.userDetails.addresses[0].postalCode}}&nbsp;
                             </div>
                         </div>
                         <div class="table-container mt-4 mb-4">
-                            <table mat-table [dataSource]="order.orderItems" class="width100percent mat-elevation-z8">
+                            <table mat-table [dataSource]="cart.cartItems" class="width100percent mat-elevation-z8">
 
                                 <!--- Note that these columns can be defined in any order.
                                       The actual rendered columns are set as a property on the row definition" -->
@@ -106,41 +100,67 @@
                 </mat-expansion-panel>
 
             </mat-accordion>
-            <div *ngIf="ordersList.length == 0">
-                <p class="text-center fw-bold mt-5 pt-5 fs-22">There are currently no completed orders</p>
+
+            <div *ngIf="cartList.length == 0">
+                <p class="text-center fw-bold mt-5 pt-5 fs-22">All the users carts are empty!</p>
+
+
             </div>
         </div>
     </div>
 </div>
-<!-- <ng-template #updatePaymentTemplate>
-    <div class="container">
-        <div class="title text-center fw-bold fs-22 mb-4">Update Order Status</div>
-        <div class="mt-4 status d-flex justify-content-between align-items-center">
-            <div>
-                <mat-form-field>
-                    <mat-label>Current Status</mat-label>
-                    <mat-select readonly [(value)]="currentStatus">
-                        <mat-option [value]="currentOrder.status">{{currentOrder.status}}</mat-option>
-                    </mat-select>
+<ng-template #customerDetailsTemplate>
+    <div class="container customer-details-address">
+        <div class="title text-center fw-bold fs-22 mb-4">Customer Details</div>
+        <!-- <div class="mt-4 status d-flex flex-wrap row row-cols-2 justify-content-between align-items-center">
+            <div *ngIf="selectedUser.addresses[0].unitNumber" class="form-field-container col">
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Unit Number</mat-label>
+                    <input readonly [value]="selectedUser.addresses[0].unitNumber" matInput placeholder="Placeholder" />
                 </mat-form-field>
             </div>
-            <div>
-                To
+            <div *ngIf="selectedUser.addresses[0].buildingNumber" class="form-field-container col">
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Building Number</mat-label>
+                    <input readonly [value]="selectedUser.addresses[0].buildingNumber" matInput
+                        placeholder="Placeholder" />
+                </mat-form-field>
             </div>
-            <div>
-                <mat-form-field>
-                    <mat-label>Update Status</mat-label>
-                    <mat-select [(value)]="changeStatus">
-                        <mat-option value="payment_done">Payment Done</mat-option>
-                        <mat-option value="order_cancelled">Order Cancelled</mat-option>
-                    </mat-select>
+            <div class="form-field-container col">
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Street Name</mat-label>
+                    <input readonly [value]="selectedUser.addresses[0].streetName" matInput placeholder="Placeholder" />
+                </mat-form-field>
+            </div>
+            <div class="form-field-container col">
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>City</mat-label>
+                    <input readonly [value]="selectedUser.addresses[0].city" matInput placeholder="Placeholder" />
+                </mat-form-field>
+            </div>
+            <div class="form-field-container col">
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Province</mat-label>
+                    <input readonly [value]="selectedUser.addresses[0].province" matInput placeholder="Placeholder" />
+                </mat-form-field>
+            </div>
+            <div class="form-field-container col">
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Country</mat-label>
+                    <input readonly [value]="selectedUser.addresses[0].country" matInput placeholder="Placeholder" />
+                </mat-form-field>
+            </div>
+            <div class="form-field-container col">
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Postal Code</mat-label>
+                    <input readonly [value]="selectedUser.addresses[0].postalCode" matInput placeholder="Placeholder" />
                 </mat-form-field>
             </div>
         </div>
         <div class="button-container d-flex justify-content-center align-items-center">
 
-            <button (click)="updatePayment()" class="p-2 px-3 bg-raw-umber color-white fw-bold fs-18" mat-raised-button
-                mat-suffix>Update Payment Status</button>
-        </div>
+            <button (click)="close()" class="p-2 px-3 bg-raw-umber color-white fw-bold fs-18" mat-raised-button
+                mat-suffix>Close</button>
+        </div> -->
     </div>
-</ng-template> -->
+</ng-template>

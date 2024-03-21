@@ -1,0 +1,24 @@
+<div class="sales-report-container">
+    <app-loader *ngIf="fetching"></app-loader>
+    <app-error [errorMsg]="errorMsg" *ngIf="showError"></app-error>
+    <div class="container" *ngIf="!fetching && !showError">
+        <div class="d-flex row row-cols-2 g-2">
+            <div class="col">
+                <fusioncharts width="500" height="400" type="Column2d" [dataSource]="dataSource">
+                </fusioncharts>
+            </div>
+            <div class="col">
+                <fusioncharts width="500" height="400" type="Column2d" [dataSource]="dataSource">
+                </fusioncharts>
+            </div>
+            <div class="col">
+                <fusioncharts width="500" height="400" type="Column2d" [dataSource]="dataSource">
+                </fusioncharts>
+            </div>
+            <div class="col">
+                <fusioncharts width="500" height="400" type="Column2d" [dataSource]="dataSource">
+                </fusioncharts>
+            </div>
+        </div>
+    </div>
+</div>

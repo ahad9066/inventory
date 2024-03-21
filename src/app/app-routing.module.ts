@@ -6,6 +6,7 @@ import { SignupComponent } from 'src/modules/auth/components/signup/signup.compo
 import { ItemsComponent } from './components/items/items.component';
 import { AuthGuard } from 'src/modules/auth/guards/auth-guard.service';
 import { ROLES } from 'src/modules/auth/roles.constants';
+import { SalesReportComponent } from './components/sales-report/sales-report.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,12 @@ const routes: Routes = [
     data: { roles: [ROLES.ADMIN, ROLES.SALES, ROLES.MANAGER] }
   },
   {
+    path: 'inventory/salesreport',
+    component: SalesReportComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [ROLES.ADMIN, ROLES.SALES, ROLES.MANAGER] }
+  },
+  {
     path: 'admin',
     loadChildren: () =>
       import('../wrappers/admin.wrapper').then(
@@ -40,6 +47,15 @@ const routes: Routes = [
     loadChildren: () =>
       import('../wrappers/orders.wrapper').then(
         (m) => m.OrderWrapperModule
+      ),
+    canActivate: [AuthGuard],
+    data: { roles: [ROLES.ADMIN, ROLES.SALES, ROLES.MANAGER] }
+  },
+  {
+    path: 'customers',
+    loadChildren: () =>
+      import('../wrappers/customers.wrapper').then(
+        (m) => m.CustomersWrapperModule
       ),
     canActivate: [AuthGuard],
     data: { roles: [ROLES.ADMIN, ROLES.SALES, ROLES.MANAGER] }

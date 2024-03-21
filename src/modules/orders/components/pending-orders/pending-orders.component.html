@@ -5,7 +5,7 @@
             Pending Orders List
         </div>
         <div class="mt-4 orders-container">
-            <mat-accordion class="example-headers-align" multi>
+            <mat-accordion class="example-headers-align orders-items-container" multi>
                 <mat-expansion-panel *ngFor="let order of ordersList">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
@@ -41,7 +41,7 @@
                         <div class="mb-2 d-flex justify-content-between fs-18">
                             <div class="d-flex">
                                 <div class="fw-bold color-raw-umber "> Order Status: &nbsp;</div>
-                                <div>{{order.status}}</div>
+                                <div class="fw-bold">{{order.status}}</div>
                             </div>
 
                         </div>
@@ -126,10 +126,15 @@
                     <mat-label>Update Status</mat-label>
                     <mat-select [(value)]="changeStatus">
                         <mat-option value="payment_done">Payment Done</mat-option>
-                        <mat-option value="order_cancelled">Order Cancelled</mat-option>
+                        <!-- <mat-option value="order_cancelled">Order Cancelled</mat-option> -->
                     </mat-select>
                 </mat-form-field>
             </div>
+        </div>
+        <div class="button-container d-flex justify-content-center align-items-center">
+
+            <button (click)="updatePayment()" class="p-2 px-3 bg-raw-umber color-white fw-bold fs-18" mat-raised-button
+                mat-suffix>Update Payment Status</button>
         </div>
     </div>
 </ng-template>

@@ -21,6 +21,12 @@ import { ItemsComponent } from './components/items/items.component';
 import { SidenavComponent } from './shared/sidenav/sidenav.component';
 import { PrimeNgModule } from './primeng.module';
 import { AuthGuard } from 'src/modules/auth/guards/auth-guard.service';
+import { SalesReportComponent } from './components/sales-report/sales-report.component';
+import { FusionChartsModule } from "angular-fusioncharts";
+import * as FusionCharts from "fusioncharts";
+import * as charts from "fusioncharts/fusioncharts.charts";
+import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+FusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme);
 
 export function ModuleConfigFactory(): AuthModule {
   return {
@@ -35,10 +41,12 @@ export function ModuleConfigFactory(): AuthModule {
     FooterComponent,
     HomeComponent,
     ItemsComponent,
-    SidenavComponent
+    SidenavComponent,
+    SalesReportComponent
   ],
   imports: [
     PrimeNgModule,
+    FusionChartsModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,

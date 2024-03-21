@@ -89,7 +89,15 @@
     border-bottom: 2px solid $raw-umber !important;
 }
 
-.mat-expansion-panel-header-description {
-    display: flex;
-    justify-content: end;
+.orders-items-container {
+    .mat-expansion-panel-header-description {
+        display: flex;
+        justify-content: end;
+    }
+}
+
+.customer-details-address {
+    mat-form-field {
+        width: 100% !important;
+    }
 }
