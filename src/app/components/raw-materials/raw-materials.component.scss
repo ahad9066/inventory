@@ -1,0 +1,30 @@
+.raw-materials-list-container {
+    margin: 20px;
+
+    .table-container {
+        margin-top: 20px;
+
+        table {
+            width: 100%;
+
+            .mat-header-cell {
+                font-weight: bold !important;
+                color: black !important;
+                font-size: 18px !important;
+            }
+
+            .mat-row {
+                cursor: pointer !important;
+
+                &:hover {
+                    background-color: #965631 !important;
+                    color: white !important;
+
+                    td {
+                        color: white !important;
+                    }
+                }
+            }
+        }
+    }
+}

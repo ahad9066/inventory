@@ -37,16 +37,6 @@ export class ItemsComponent implements OnInit {
     })
 
   }
-  getRowCount(subValue: any[], name: string): number {
-    let count = 0;
-    for (const subrow of subValue) {
-      if (subrow.name === name) {
-        count++;
-      } else {
-        break; // Exit loop once different name encountered
-      }
-    }
-    return count;
-  }
+
 
 }

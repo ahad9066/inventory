@@ -13,6 +13,12 @@ export class ApiService {
     public getProducts() {
         return this.httpClient.get(`${environment.productsBaseUrl}/feTi`);
     }
+    public getRawMaterials() {
+        return this.httpClient.get(`${environment.productsBaseUrl}/rawMaterial`);
+    }
+    public updateRawMaterials(payload) {
+        return this.httpClient.post(`${environment.productsBaseUrl}/rawMaterial/updateRawMaterials`, payload);
+    }
     public getOrders() {
         return this.httpClient.get(`${environment.productsBaseUrl}/orders/all`);
     }

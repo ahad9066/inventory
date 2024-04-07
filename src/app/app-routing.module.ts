@@ -7,6 +7,7 @@ import { ItemsComponent } from './components/items/items.component';
 import { AuthGuard } from 'src/modules/auth/guards/auth-guard.service';
 import { ROLES } from 'src/modules/auth/roles.constants';
 import { SalesReportComponent } from './components/sales-report/sales-report.component';
+import { RawMaterialsComponent } from './components/raw-materials/raw-materials.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,12 @@ const routes: Routes = [
   {
     path: 'inventory/items',
     component: ItemsComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [ROLES.ADMIN, ROLES.SALES, ROLES.MANAGER] }
+  },
+  {
+    path: 'inventory/rawMaterials',
+    component: RawMaterialsComponent,
     canActivate: [AuthGuard],
     data: { roles: [ROLES.ADMIN, ROLES.SALES, ROLES.MANAGER] }
   },

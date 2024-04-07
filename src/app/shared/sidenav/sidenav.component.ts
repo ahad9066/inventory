@@ -20,12 +20,17 @@ export class SidenavComponent implements OnInit {
         {
           route: '/inventory/items',
           name: "Items",
-          roles: [ROLES.ADMIN],
+          roles: [ROLES.ADMIN, ROLES.MANAGER, ROLES.SALES],
+        },
+        {
+          route: '/inventory/rawMaterials',
+          name: "Raw Materials",
+          roles: [ROLES.ADMIN, ROLES.MANAGER, ROLES.SALES],
         },
         {
           route: '/inventory/salesreport',
           name: "Sales Report",
-          roles: [ROLES.ADMIN],
+          roles: [ROLES.ADMIN, ROLES.MANAGER, ROLES.SALES],
         }
       ]
     },

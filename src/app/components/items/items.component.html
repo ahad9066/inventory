@@ -23,34 +23,6 @@
                             </mat-panel-description>
                         </mat-expansion-panel-header>
                         <div>
-                            <!-- <table border="1" style="width: 100%;" class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Grade Name</th>
-                                        <th scope="col">Sub Grade Name</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Stock Count</th>
-                                    </tr>
-                                </thead>
-                                <ng-container *ngFor="let row of parsedList">
-                                    <ng-container *ngFor="let rrow of row.value">
-                                        <tbody>
-                                            <ng-container *ngIf="row.key == item.value.code">
-                                                <ng-container *ngFor="let subrow of rrow.subValue; let i = index ;">
-                                                    <tr *ngIf="i == 0 || subrow.name !== rrow.subValue[i - 1].name">
-                                                        <td [attr.rowspan]="getRowCount(rrow.subValue, subrow.name)">
-                                                            {{ subrow.name }}
-                                                        </td>
-                                                        <td>{{ subrow.subGradeName }}</td>
-                                                        <td>{{ subrow.price | currency: 'CAD' :'symbol-narrow' }}</td>
-                                                        <td>{{ subrow.stockCount }}</td>
-                                                    </tr>
-                                                </ng-container>
-                                            </ng-container>
-                                        </tbody>
-                                    </ng-container>
-                                </ng-container>
-                            </table> -->
 
 
                             <table border="1" style="width: 100%;" class="table table-striped">

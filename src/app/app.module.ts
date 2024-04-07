@@ -26,6 +26,8 @@ import { FusionChartsModule } from "angular-fusioncharts";
 import * as FusionCharts from "fusioncharts";
 import * as charts from "fusioncharts/fusioncharts.charts";
 import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+import { RawMaterialsComponent } from './components/raw-materials/raw-materials.component';
+import { FormsModule } from '@angular/forms';
 FusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme);
 
 export function ModuleConfigFactory(): AuthModule {
@@ -42,9 +44,11 @@ export function ModuleConfigFactory(): AuthModule {
     HomeComponent,
     ItemsComponent,
     SidenavComponent,
-    SalesReportComponent
+    SalesReportComponent,
+    RawMaterialsComponent
   ],
   imports: [
+    FormsModule,
     PrimeNgModule,
     FusionChartsModule,
     BrowserModule,
