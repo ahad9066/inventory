@@ -53,21 +53,21 @@ export class SidenavComponent implements OnInit {
         }
       ]
     },
-    {
-      name: "Invoice",
-      icon: "fa-solid fa-file-invoice  me-2 color-raw-umber",
-      roles: [ROLES.ADMIN, ROLES.MANAGER, ROLES.SALES],
-      pages: [
-        {
-          route: '/invoice/items',
-          name: "Generate invoice"
-        },
-        {
-          route: '/invoice/salesreport',
-          name: "Past Invoice"
-        }
-      ]
-    },
+    // {
+    //   name: "Invoice",
+    //   icon: "fa-solid fa-file-invoice  me-2 color-raw-umber",
+    //   roles: [ROLES.ADMIN, ROLES.MANAGER, ROLES.SALES],
+    //   pages: [
+    //     {
+    //       route: '/invoice/items',
+    //       name: "Generate invoice"
+    //     },
+    //     {
+    //       route: '/invoice/salesreport',
+    //       name: "Past Invoice"
+    //     }
+    //   ]
+    // },
     {
       name: "Customers",
       icon: "fa-solid fa-file-invoice  me-2 color-raw-umber",
